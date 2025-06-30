@@ -3,181 +3,157 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Código CV - Decodificador</title>
+  <title>Código CV</title>
   <style>
     body {
-      font-family: 'Arial', sans-serif;
-      margin: 2rem auto;
+      font-family: Arial, sans-serif;
       max-width: 700px;
-      background-color: #f4f4f4;
+      margin: 2rem auto;
+      background: #ccc; /* fundo cinza */
       color: #222;
       padding: 30px;
-      border: 1px solid #ccc;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      position: relative;
     }
-
     h1 {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 1.8rem;
+      text-align: center;
       margin-bottom: 20px;
     }
-
-    #selo {
-      background-color: #0056b3;
+    nav {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    nav button {
+      background: #0056b3;
       color: #fff;
-      font-size: 0.9rem;
-      padding: 6px 12px;
+      margin: 0 5px;
+      padding: 10px 16px;
+      border: none;
       border-radius: 4px;
       cursor: pointer;
-      font-weight: bold;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-      transition: background 0.3s ease;
     }
-
-    #selo:hover {
-      background-color: #003d80;
+    nav button:hover {
+      background: #003d80;
     }
-
+    section {
+      background: #fff;
+      padding: 20px;
+      margin-top: 20px;
+      border-radius: 6px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    h2 { color: #0056b3; }
     textarea {
       width: 100%;
-      height: 120px;
-      font-size: 1rem;
       padding: 10px;
+      margin: 8px 0;
       border: 1px solid #ccc;
-      background: #fff;
-      color: #222;
       border-radius: 4px;
-    }
-
-    button {
-      background-color: #0056b3;
-      color: #fff;
-      border: none;
-      padding: 12px 20px;
       font-size: 1rem;
-      cursor: pointer;
-      border-radius: 4px;
-      margin-top: 10px;
-      transition: background-color 0.3s ease;
     }
-
-    button:hover {
-      background-color: #003d80;
-    }
-
     #resultado {
-      margin-top: 20px;
-      background-color: #e9ecef;
-      padding: 15px;
+      background: #e9ecef;
+      padding: 12px;
+      margin-top: 12px;
+      border-radius: 4px;
       font-size: 1.1rem;
-      border: 1px solid #ccc;
-      border-radius: 4px;
     }
-
-    #simplificar-tab {
+    #btn-manual, #btn-selo {
       position: fixed;
-      top: 50%;
-      right: 0;
-      transform: translateY(-50%);
-      background-color: #0056b3;
-      color: white;
-      padding: 10px 20px;
-      border-top-left-radius: 4px;
-      border-bottom-left-radius: 4px;
-      font-size: 0.95rem;
-      font-weight: 600;
-      cursor: pointer;
-      box-shadow: -3px 3px 8px rgba(0,0,0,0.3);
-      user-select: none;
-    }
-
-    #simplificar-tab:hover {
-      background-color: #003d80;
-    }
-
-    #modal-bg {
-      position: fixed;
-      top:0; left:0; right:0; bottom:0;
-      background: rgba(0,0,0,0.6);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 2000;
-    }
-
-    #modal-content {
-      background: #fff;
-      color: #222;
-      padding: 25px 30px;
-      border-radius: 6px;
-      max-width: 400px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-    }
-
-    #modal-content h2 {
-      margin-top: 0;
-      font-size: 1.3rem;
-      color: #003d80;
-    }
-
-    #modal-content button {
-      margin-top: 20px;
-      background-color: #0056b3;
+      top: 15px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #0056b3;
       color: #fff;
-      border-radius: 4px;
-      padding: 8px 18px;
+      font-size: 1.2rem;
+      font-weight: bold;
       border: none;
       cursor: pointer;
-      font-size: 0.95rem;
+      z-index: 3000;
     }
-
-    #modal-content button:hover {
-      background-color: #003d80;
+    #btn-manual { left: 15px; }
+    #btn-selo { right: 15px; font-size: 0.9rem; font-weight: bold; }
+    .modal-bg {
+      position: fixed;
+      top:0; left:0; width:100%; height:100%;
+      background: rgba(0,0,0,0.6);
+      display:none;
+      justify-content:center;
+      align-items:center;
+      z-index:2000;
     }
+    .modal-content {
+      background: #fff;
+      padding: 25px;
+      border-radius: 6px;
+      width:90%;
+      max-width:400px;
+      max-height:80vh;
+      overflow-y:auto;
+    }
+    .modal-content h2 { margin-top:0; color:#003d80; }
+    .modal-content button { margin-top:12px; }
+    a { color: #0056b3; text-decoration: none; }
+    a:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
 
-<h1>
-  Código CV - Decodificador
-  <div id="selo" title="Informações do projeto">JDSL</div>
-</h1>
+<h1>Código CV</h1>
 
-<p>Digite uma frase abaixo para gerar seu Código CV:</p>
+<!-- Botões flutuantes -->
+<button id="btn-manual" title="Manual de uso">?</button>
+<button id="btn-selo" title="Sobre o projeto">JDSL</button>
 
-<textarea id="frase" placeholder="Digite aqui sua frase..."></textarea>
-<br />
-<button onclick="decodificar()">Decodificar</button>
+<nav>
+  <button onclick="mostrar('cv')">Código CV</button>
+</nav>
 
-<div id="resultado"></div>
+<section id="cv">
+  <h2>Código CV</h2>
+  <textarea id="frase" placeholder="Digite uma frase..."></textarea>
+  <button onclick="decodificarCV()">Decodificar</button>
+  <div id="resultado"></div>
+</section>
 
-<div id="simplificar-tab" title="Clique para simplificar o código CV">
-  Simplificar
+<!-- Modal: MANUAL -->
+<div id="modal-manual-bg" class="modal-bg">
+  <div class="modal-content">
+    <h2>Manual de Uso</h2>
+    <h3>Código CV</h3>
+    <p>Conta quantas consoantes existem entre vogais.</p>
+    <button onclick="document.getElementById('modal-manual-bg').style.display='none'">Fechar</button>
+  </div>
 </div>
 
-<div id="modal-bg">
-  <div id="modal-content">
-    <h2>Sobre este projeto</h2>
+<!-- Modal: JDSL -->
+<div id="modal-selo-bg" class="modal-bg">
+  <div class="modal-content">
+    <h2>Sobre este Projeto</h2>
     <p><strong>Nome:</strong> Código CV</p>
     <p><strong>Criador:</strong> Jeferson dos Santos Lucena</p>
+    <p><strong>Instagram:</strong> <a href="https://instagram.com/lucenaxr" target="_blank">@lucenaxr</a></p>
     <p><strong>Colaborador técnico:</strong> ChatGPT</p>
     <p><strong>Data de criação:</strong> 30 de junho de 2025</p>
-    <p><strong>Descrição:</strong> Uma nova forma divertida e lógica de codificar frases com base em contagens entre vogais.</p>
-    <button id="fechar-modal">Fechar</button>
+    <button onclick="document.getElementById('modal-selo-bg').style.display='none'">Fechar</button>
   </div>
 </div>
 
 <script>
-  function decodificar() {
+  function mostrar(sec) {
+    document.getElementById('cv').style.display = sec === 'cv' ? 'block' : 'none';
+    document.getElementById('resultado').innerText = '';
+    window.codigoCV = null;
+  }
+  mostrar('cv');
+
+  function decodificarCV() {
     const frase = document.getElementById('frase').value.toLowerCase();
     const vogais = ['a','e','i','o','u'];
-    let contagem = 0;
-    let resultado = [];
-
-    for (let i = 0; i < frase.length; i++) {
-      const letra = frase[i];
+    let contagem = 0, resultado = [];
+    for (let letra of frase) {
       if (!/[a-z]/.test(letra)) continue;
       if (vogais.includes(letra)) {
         resultado.push(contagem);
@@ -187,55 +163,21 @@
       }
     }
     if (contagem > 0) resultado.push(contagem);
-
     window.codigoCV = resultado;
     document.getElementById('resultado').innerText = 'Código CV: ' + resultado.join(' ');
   }
 
-  function simplificarCodigo(arr) {
-    if (!arr || arr.length === 0) return [];
+  // Abrir modais
+  document.getElementById('btn-manual').onclick = () => {
+    document.getElementById('modal-manual-bg').style.display = 'flex';
+  };
+  document.getElementById('btn-selo').onclick = () => {
+    document.getElementById('modal-selo-bg').style.display = 'flex';
+  };
 
-    let simplificado = arr.map(num => {
-      while (num % 2 === 0 && num > 1) {
-        num = num / 2;
-      }
-      return num;
-    });
-
-    simplificado = simplificado.filter(num => num !== 0 && num % 2 === 0);
-    return simplificado;
-  }
-
-  document.getElementById('simplificar-tab').addEventListener('click', () => {
-    if (!window.codigoCV) {
-      alert('Por favor, decodifique uma frase primeiro.');
-      return;
-    }
-    const simplificado = simplificarCodigo(window.codigoCV);
-    if(simplificado.length === 0) {
-      document.getElementById('resultado').innerText = 'Código simplificado: vazio';
-    } else {
-      document.getElementById('resultado').innerText = 'Código CV Simplificado: ' + simplificado.join(' ');
-    }
-  });
-
-  const selo = document.getElementById('selo');
-  const modalBg = document.getElementById('modal-bg');
-  const fecharModal = document.getElementById('fechar-modal');
-
-  selo.addEventListener('click', () => {
-    modalBg.style.display = 'flex';
-  });
-
-  fecharModal.addEventListener('click', () => {
-    modalBg.style.display = 'none';
-  });
-
-  modalBg.addEventListener('click', (e) => {
-    if (e.target === modalBg) {
-      modalBg.style.display = 'none';
-    }
-  });
+  window.onclick = e => {
+    if (e.target.classList.contains('modal-bg')) e.target.style.display = 'none';
+  };
 </script>
 
 </body>
