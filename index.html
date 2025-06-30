@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Código CV - Decodificador</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 2rem auto;
+      max-width: 700px;
+      background-color: #f4f4f4;
+      color: #222;
+      padding: 30px;
+      border: 1px solid #ccc;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+    }
+
+    #selo {
+      background-color: #0056b3;
+      color: #fff;
+      font-size: 0.9rem;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      transition: background 0.3s ease;
+    }
+
+    #selo:hover {
+      background-color: #003d80;
+    }
+
+    textarea {
+      width: 100%;
+      height: 120px;
+      font-size: 1rem;
+      padding: 10px;
+      border: 1px solid #ccc;
+      background: #fff;
+      color: #222;
+      border-radius: 4px;
+    }
+
+    button {
+      background-color: #0056b3;
+      color: #fff;
+      border: none;
+      padding: 12px 20px;
+      font-size: 1rem;
+      cursor: pointer;
+      border-radius: 4px;
+      margin-top: 10px;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #003d80;
+    }
+
+    #resultado {
+      margin-top: 20px;
+      background-color: #e9ecef;
+      padding: 15px;
+      font-size: 1.1rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    #simplificar-tab {
+      position: fixed;
+      top: 50%;
+      right: 0;
+      transform: translateY(-50%);
+      background-color: #0056b3;
+      color: white;
+      padding: 10px 20px;
+      border-top-left-radius: 4px;
+      border-bottom-left-radius: 4px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: -3px 3px 8px rgba(0,0,0,0.3);
+      user-select: none;
+    }
+
+    #simplificar-tab:hover {
+      background-color: #003d80;
+    }
+
+    #modal-bg {
+      position: fixed;
+      top:0; left:0; right:0; bottom:0;
+      background: rgba(0,0,0,0.6);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+    }
+
+    #modal-content {
+      background: #fff;
+      color: #222;
+      padding: 25px 30px;
+      border-radius: 6px;
+      max-width: 400px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    }
+
+    #modal-content h2 {
+      margin-top: 0;
+      font-size: 1.3rem;
+      color: #003d80;
+    }
+
+    #modal-content button {
+      margin-top: 20px;
+      background-color: #0056b3;
+      color: #fff;
+      border-radius: 4px;
+      padding: 8px 18px;
+      border: none;
+      cursor: pointer;
+      font-size: 0.95rem;
+    }
+
+    #modal-content button:hover {
+      background-color: #003d80;
+    }
+  </style>
+</head>
+<body>
+
+<h1>
+  Código CV - Decodificador
+  <div id="selo" title="Informações do projeto">JDSL</div>
+</h1>
+
+<p>Digite uma frase abaixo para gerar seu Código CV:</p>
+
+<textarea id="frase" placeholder="Digite aqui sua frase..."></textarea>
+<br />
+<button onclick="decodificar()">Decodificar</button>
+
+<div id="resultado"></div>
+
+<div id="simplificar-tab" title="Clique para simplificar o código CV">
+  Simplificar
+</div>
+
+<div id="modal-bg">
+  <div id="modal-content">
+    <h2>Sobre este projeto</h2>
+    <p><strong>Nome:</strong> Código CV</p>
+    <p><strong>Criador:</strong> Jeferson dos Santos Lucena</p>
+    <p><strong>Colaborador técnico:</strong> ChatGPT</p>
+    <p><strong>Data de criação:</strong> 30 de junho de 2025</p>
+    <p><strong>Descrição:</strong> Uma nova forma divertida e lógica de codificar frases com base em contagens entre vogais.</p>
+    <button id="fechar-modal">Fechar</button>
+  </div>
+</div>
+
+<script>
+  function decodificar() {
+    const frase = document.getElementById('frase').value.toLowerCase();
+    const vogais = ['a','e','i','o','u'];
+    let contagem = 0;
+    let resultado = [];
+
+    for (let i = 0; i < frase.length; i++) {
+      const letra = frase[i];
+      if (!/[a-z]/.test(letra)) continue;
+      if (vogais.includes(letra)) {
+        resultado.push(contagem);
+        contagem = 0;
+      } else {
+        contagem++;
+      }
+    }
+    if (contagem > 0) resultado.push(contagem);
+
+    window.codigoCV = resultado;
+    document.getElementById('resultado').innerText = 'Código CV: ' + resultado.join(' ');
+  }
+
+  function simplificarCodigo(arr) {
+    if (!arr || arr.length === 0) return [];
+
+    let simplificado = arr.map(num => {
+      while (num % 2 === 0 && num > 1) {
+        num = num / 2;
+      }
+      return num;
+    });
+
+    simplificado = simplificado.filter(num => num !== 0 && num % 2 === 0);
+    return simplificado;
+  }
+
+  document.getElementById('simplificar-tab').addEventListener('click', () => {
+    if (!window.codigoCV) {
+      alert('Por favor, decodifique uma frase primeiro.');
+      return;
+    }
+    const simplificado = simplificarCodigo(window.codigoCV);
+    if(simplificado.length === 0) {
+      document.getElementById('resultado').innerText = 'Código simplificado: vazio';
+    } else {
+      document.getElementById('resultado').innerText = 'Código CV Simplificado: ' + simplificado.join(' ');
+    }
+  });
+
+  const selo = document.getElementById('selo');
+  const modalBg = document.getElementById('modal-bg');
+  const fecharModal = document.getElementById('fechar-modal');
+
+  selo.addEventListener('click', () => {
+    modalBg.style.display = 'flex';
+  });
+
+  fecharModal.addEventListener('click', () => {
+    modalBg.style.display = 'none';
+  });
+
+  modalBg.addEventListener('click', (e) => {
+    if (e.target === modalBg) {
+      modalBg.style.display = 'none';
+    }
+  });
+</script>
+
+</body>
+</html>
